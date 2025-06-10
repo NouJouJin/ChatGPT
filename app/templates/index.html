@@ -9,7 +9,10 @@
       {% for item in products %}
       <li>
         {{ item.name }} ({{ item.quantity }})
-        <a href="{{ url_for('routes.reserve', product_id=item.id) }}">Reserve</a>
+        <form action="{{ url_for('routes.reserve') }}" method="post" style="display:inline;">
+          {{ forms[item.id].hidden_tag() }}
+          {{ forms[item.id].submit() }}
+        </form>
       </li>
       {% endfor %}
     </ul>
