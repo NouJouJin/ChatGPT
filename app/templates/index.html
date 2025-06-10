@@ -4,6 +4,14 @@
     <title>Farm Products</title>
   </head>
   <body>
+    {% if current_user.is_authenticated %}
+      Logged in as {{ current_user.username }} - <a href="{{ url_for('routes.logout') }}">Logout</a>
+      {% if current_user.is_admin %}
+        | <a href="{{ url_for('routes.add_product') }}">Add Product</a>
+      {% endif %}
+    {% else %}
+      <a href="{{ url_for('routes.login') }}">Login</a>
+    {% endif %}
     <h1>Available Products</h1>
     <ul>
       {% for item in products %}

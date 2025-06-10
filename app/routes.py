@@ -1,6 +1,7 @@
-from flask import Blueprint, render_template, redirect, url_for, request
-from .models import Product, Reservation
-from .forms import ReservationForm
+from flask import Blueprint, render_template, redirect, url_for, abort
+from flask_login import login_user, logout_user, login_required, current_user
+from .models import Product, Reservation, User
+from .forms import ReservationForm, LoginForm, ProductForm
 from . import db
 
 bp = Blueprint('routes', __name__)
@@ -19,3 +20,34 @@ def reserve():
         db.session.add(reservation)
         db.session.commit()
     return redirect(url_for('routes.index'))
+
+
+@bp.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user and user.check_password(form.password.data):
+            login_user(user)
+            return redirect(url_for('routes.index'))
+    return render_template('login.html', form=form)
+
+
+@bp.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('routes.index'))
+
+
+@bp.route('/add-product', methods=['GET', 'POST'])
+@login_required
+def add_product():
+    if not current_user.is_admin:
+        abort(403)
+    form = ProductForm()
+    if form.validate_on_submit():
+        product = Product(name=form.name.data, quantity=form.quantity.data)
+        db.session.add(product)
+        db.session.commit()
+        return redirect(url_for('routes.index'))
+    return render_template('add_product.html', form=form)
