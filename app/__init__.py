@@ -11,6 +11,8 @@ def create_app():
     app = Flask(__name__)
 
     # Default configuration uses local SQLite database
+    if not app.config.get("SECRET_KEY"):
+        app.config["SECRET_KEY"] = "dev-secret-key"
     app.config.setdefault("SQLALCHEMY_DATABASE_URI", "sqlite:///app.db")
     app.config.setdefault("SQLALCHEMY_TRACK_MODIFICATIONS", False)
 
