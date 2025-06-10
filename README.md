@@ -16,12 +16,16 @@ Simple Flask web app to manage farm product reservations.
    ```bash
    pip install -r requirements.txt
    ```
-4. Run the application:
+4. Initialize the database with sample data:
    ```bash
    export FLASK_APP=app
+   flask init-db
+   ```
+5. Run the application:
+   ```bash
    flask run
    ```
-5. Open `http://localhost:5000` in your browser.
+6. Open `http://localhost:5000` in your browser.
 
 ## Running Tests
 
