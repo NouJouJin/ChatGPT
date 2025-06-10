@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Farm Products</title>
+  </head>
+  <body>
+    <h1>Available Products</h1>
+    <ul>
+      {% for item in products %}
+      <li>
+        {{ item.name }} ({{ item.quantity }})
+        <a href="{{ url_for('routes.reserve', product_id=item.id) }}">Reserve</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>
