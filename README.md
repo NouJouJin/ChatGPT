@@ -22,3 +22,12 @@ Simple Flask web app to manage farm product reservations.
    flask run
    ```
 5. Open `http://localhost:5000` in your browser.
+
+## Running Tests
+
+Install `pytest` and run the tests from the repository root:
+
+```bash
+pip install pytest
+pytest
+```
